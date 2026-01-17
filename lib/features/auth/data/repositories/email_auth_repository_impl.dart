@@ -12,7 +12,11 @@ class EmailAuthRepositoryImpl implements EmailAuthRepository {
     : _emailAuthDataSource = emailAuthDataSource;
 
   @override
-  Future<Either<Failure, UserEntity>> signUpWithEmail({required String email, required String password}) async {
+  Future<Either<Failure, UserEntity>> signUpWithEmail({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
     try {
       final user = await _emailAuthDataSource.signUpWithEmail(email: email, password: password, name: name);
       return Right(user);

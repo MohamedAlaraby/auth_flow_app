@@ -23,6 +23,7 @@ class EmailAuthBloc extends Bloc<EmailAuthEvent, EmailAuthState> {
     final result = await emailAuthRepository.signUpWithEmail(
       email: event.email,
       password: event.password,
+      name: event.name,
     );
 
     result.fold(
