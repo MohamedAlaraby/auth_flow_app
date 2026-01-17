@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auth_flow_app/core/di/injection_container.dart';
 import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_bloc.dart';
 import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_event.dart';
@@ -7,12 +5,23 @@ import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_st
 import 'package:auth_flow_app/features/auth/presentation/screens/home_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/signup_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initDependencies();
 
+  await dotenv.load(fileName: ".env");
+
+  await Supabase.initialize(url: dotenv.env["SUPABASE_URL"]!, anonKey: dotenv.env["SUPABASE_ANON_KEY"]!);
+
+  final response = await Supabase.instance.client.auth.signUp(email: "u@gmail.com", password: "123456");
+
+  print(response.user);
   runApp(const MyApp());
 }
 
@@ -26,10 +35,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Auth Flow App',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
+        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue), useMaterial3: true),
         home: const AuthWrapper(),
         routes: {
           '/login': (context) => const LoginPage(),
@@ -49,11 +55,7 @@ class AuthWrapper extends StatelessWidget {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if (state is SessionLoading || state is SessionInitial) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (state is Authenticated) {
           return const HomePage();
         } else {
