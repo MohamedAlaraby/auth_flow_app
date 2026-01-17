@@ -1,27 +1,20 @@
-import 'package:dartz/dartz.dart';
 import 'package:auth_flow_app/core/error/exceptions.dart';
 import 'package:auth_flow_app/core/error/failures.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/email_auth_datasource.dart';
 import 'package:auth_flow_app/features/auth/domain/entities/user_entity.dart';
 import 'package:auth_flow_app/features/auth/domain/repositories/email_auth_repository.dart';
+import 'package:dartz/dartz.dart';
 
 class EmailAuthRepositoryImpl implements EmailAuthRepository {
   final EmailAuthDataSource _emailAuthDataSource;
 
-  EmailAuthRepositoryImpl({
-    required EmailAuthDataSource emailAuthDataSource,
-  }) : _emailAuthDataSource = emailAuthDataSource;
+  EmailAuthRepositoryImpl({required EmailAuthDataSource emailAuthDataSource})
+    : _emailAuthDataSource = emailAuthDataSource;
 
   @override
-  Future<Either<Failure, UserEntity>> signUpWithEmail({
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<Failure, UserEntity>> signUpWithEmail({required String email, required String password}) async {
     try {
-      final user = await _emailAuthDataSource.signUpWithEmail(
-        email: email,
-        password: password,
-      );
+      final user = await _emailAuthDataSource.signUpWithEmail(email: email, password: password, name: name);
       return Right(user);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
@@ -33,15 +26,9 @@ class EmailAuthRepositoryImpl implements EmailAuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithEmail({
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<Failure, UserEntity>> signInWithEmail({required String email, required String password}) async {
     try {
-      final user = await _emailAuthDataSource.signInWithEmail(
-        email: email,
-        password: password,
-      );
+      final user = await _emailAuthDataSource.signInWithEmail(email: email, password: password);
       return Right(user);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));

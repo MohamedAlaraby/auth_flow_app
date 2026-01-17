@@ -29,4 +29,11 @@ class UserEntity extends Equatable {
     isEmailVerified,
     createdAt,
   ];
+
+  @override
+  String toString() {
+    return 'UserEntity{id: $id, email: $email, displayName: $displayName, photoUrl: $photoUrl, phoneNumber: $phoneNumber, isEmailVerified: $isEmailVerified, createdAt: $createdAt}';
+  }
+
+
 }

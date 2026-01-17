@@ -4,6 +4,7 @@ abstract class EmailAuthDataSource {
   Future<UserModel> signUpWithEmail({
     required String email,
     required String password,
+    required String name,
   });
 
   Future<UserModel> signInWithEmail({
