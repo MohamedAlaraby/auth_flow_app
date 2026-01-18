@@ -14,7 +14,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<SignOutEvent>(_onSignOut);
     on<AuthStateChangedEvent>(_onAuthStateChanged);
 
-    // TODO : UN COMMIT
+    // TODO: UN COMMIT
     // _authStateSubscription = sessionRepository.authStateChanges.listen((user) {
     //   add(AuthStateChangedEvent(user));
     // });

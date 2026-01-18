@@ -27,8 +27,12 @@ class EmailAuthDataSourceImpl implements EmailAuthDataSource {
   @override
   Future<UserModel> signInWithEmail({required String email, required String password}) async {
     try {
-      // TODO: Implement signInWithEmail
-      throw UnimplementedError('signInWithEmail not implemented yet');
+      final response = await _authClient.signIn(email: email, password: password);
+      if (response.user == null) {
+        throw AuthException('SignIn Failed - invalidate credentials');
+      }
+
+      return UserModel.fromSupabaseUser(response.user!);
     } on AuthException {
       rethrow;
     } catch (e) {
