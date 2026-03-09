@@ -10,4 +10,6 @@ abstract class AuthClient {
   Future<AuthResponse> verifyPasswordResetOtp({required String email, required String otp});
 
   Future<UserResponse> updatePassword({required String password});
+
+  Future<AuthResponse> signInWithIdToken(OAuthProvider provider, String idToken);
 }
