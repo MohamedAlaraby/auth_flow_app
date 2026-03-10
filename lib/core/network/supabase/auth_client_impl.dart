@@ -38,6 +38,10 @@ class AuthClientImpl implements AuthClient {
 
   @override
   Future<bool> signInWithOAuth(OAuthProvider provider, String callbackUrl) async {
-    return await client.signInWithOAuth(provider, redirectTo: callbackUrl);
+    return await client.signInWithOAuth(
+      provider,
+      redirectTo: callbackUrl,
+      authScreenLaunchMode: LaunchMode.externalApplication,
+    );
   }
 }
