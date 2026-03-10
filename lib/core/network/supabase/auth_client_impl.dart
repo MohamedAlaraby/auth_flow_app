@@ -35,4 +35,9 @@ class AuthClientImpl implements AuthClient {
   Future<AuthResponse> signInWithIdToken(OAuthProvider provider, String idToken) async {
     return await client.signInWithIdToken(provider: provider, idToken: idToken);
   }
+
+  @override
+  Future<bool> signInWithOAuth(OAuthProvider provider, String callbackUrl) async {
+    return await client.signInWithOAuth(provider, redirectTo: callbackUrl);
+  }
 }

@@ -12,4 +12,6 @@ abstract class AuthClient {
   Future<UserResponse> updatePassword({required String password});
 
   Future<AuthResponse> signInWithIdToken(OAuthProvider provider, String idToken);
+
+  Future<bool> signInWithOAuth(OAuthProvider provider, String callbackUrl);
 }

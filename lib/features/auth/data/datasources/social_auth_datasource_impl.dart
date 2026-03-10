@@ -61,10 +61,15 @@ class SocialAuthDataSourceImpl implements SocialAuthDataSource {
   }
 
   @override
-  Future<UserModel> signInWithGitHub() async {
+  Future<void> signInWithGitHub() async {
     try {
-      // TODO: Implement signInWithGitHub
-      throw UnimplementedError('signInWithGitHub not implemented yet');
+      final launched = await _authClient.signInWithOAuth(
+        OAuthProvider.github,
+        'com.elgendy.auth_flow_app://login-callback',
+      );
+      if (!launched) {
+        throw ServerException('Failed to launch GitHub authentication');
+      }
     } on AuthException {
       rethrow;
     } catch (e) {
