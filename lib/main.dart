@@ -5,6 +5,7 @@ import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_st
 import 'package:auth_flow_app/features/auth/presentation/screens/forget_password_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/home_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:auth_flow_app/features/auth/presentation/screens/phone_auth_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => const SignupPage(),
           '/home': (context) => const HomePage(),
           '/forgot-password': (context) => const ForgetPasswordPage(),
+          '/phone-auth': (context) => const PhoneAuthPage(),
         },
       ),
     );
