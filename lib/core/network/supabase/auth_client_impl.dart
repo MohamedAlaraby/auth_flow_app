@@ -44,4 +44,14 @@ class AuthClientImpl implements AuthClient {
       authScreenLaunchMode: LaunchMode.externalApplication,
     );
   }
+
+  @override
+  Future<void> signInWithOtp({required String phoneNumber}) async {
+    await client.signInWithOtp(phone: phoneNumber);
+  }
+
+  @override
+  Future<AuthResponse> verifyOtp({required String phoneNumber, required String otp}) async {
+    return await client.verifyOTP(phone: phoneNumber, token: otp, type: OtpType.sms);
+  }
 }

@@ -14,4 +14,8 @@ abstract class AuthClient {
   Future<AuthResponse> signInWithIdToken(OAuthProvider provider, String idToken);
 
   Future<bool> signInWithOAuth(OAuthProvider provider, String callbackUrl);
+
+  Future<void> signInWithOtp({required String phoneNumber});
+
+  Future<AuthResponse> verifyOtp({required String phoneNumber , required String otp});
 }
