@@ -65,8 +65,10 @@ class SocialAuthDataSourceImpl implements SocialAuthDataSource {
     try {
       final launched = await _authClient.signInWithOAuth(
         OAuthProvider.github,
-        'com.elgendy.auth_flow_app://login-callback',
+        'com.elgendy.authflowapp://login-callback',
       );
+
+      print(launched);
       if (!launched) {
         throw ServerException('Failed to launch GitHub authentication');
       }

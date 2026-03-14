@@ -70,4 +70,4 @@ class AuthWrapper extends StatelessWidget {
 // https://kzdaluedfucnymlefowr.supabase.co/auth/v1/callback
 
 /// DeepLink
-// com.elgendy.auth_flow_app://login-callback
+// com.elgendy.authflowapp://login-callback
