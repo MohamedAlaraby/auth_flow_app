@@ -54,4 +54,7 @@ class AuthClientImpl implements AuthClient {
   Future<AuthResponse> verifyOtp({required String phoneNumber, required String otp}) async {
     return await client.verifyOTP(phone: phoneNumber, token: otp, type: OtpType.sms);
   }
+
+  @override
+  User? get getCurrentUser =>   client.currentUser;
 }

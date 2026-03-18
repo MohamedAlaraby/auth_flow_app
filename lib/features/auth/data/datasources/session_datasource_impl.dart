@@ -9,10 +9,11 @@ class SessionDataSourceImpl implements SessionDataSource {
   SessionDataSourceImpl(this._authClient);
 
   @override
-  Future<UserModel?> getCurrentUser() async {
+  UserModel? getCurrentUser() {
     try {
-      // TODO: Implement getCurrentUser
-      throw UnimplementedError('getCurrentUser not implemented yet');
+      final user = _authClient.getCurrentUser;
+
+      return user != null ? UserModel.fromSupabaseUser(user) : null;
     } catch (e) {
       throw ServerException('Failed to get current user: ${e.toString()}');
     }
