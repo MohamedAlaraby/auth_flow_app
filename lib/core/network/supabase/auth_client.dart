@@ -24,4 +24,6 @@ abstract class AuthClient {
   Future<void> signOut();
 
   Stream<AuthState> get onAuthStateChange;
+
+  Future<UserResponse> updateUser(UserAttributes attributes);
 }

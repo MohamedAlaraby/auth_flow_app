@@ -65,4 +65,9 @@ class AuthClientImpl implements AuthClient {
 
   @override
   Stream<AuthState> get onAuthStateChange => client.onAuthStateChange;
+
+  @override
+  Future<UserResponse> updateUser(UserAttributes attributes) async {
+    return await client.updateUser(attributes);
+  }
 }
