@@ -20,4 +20,6 @@ abstract class AuthClient {
   Future<AuthResponse> verifyOtp({required String phoneNumber, required String otp});
 
   User? get getCurrentUser;
+
+  Future<void> signOut();
 }

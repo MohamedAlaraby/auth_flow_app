@@ -22,8 +22,7 @@ class SessionDataSourceImpl implements SessionDataSource {
   @override
   Future<void> signOut() async {
     try {
-      // TODO: Implement signOut
-      throw UnimplementedError('signOut not implemented yet');
+      await _authClient.signOut();
     } on AuthException {
       rethrow;
     } catch (e) {

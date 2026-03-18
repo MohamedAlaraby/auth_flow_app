@@ -56,5 +56,10 @@ class AuthClientImpl implements AuthClient {
   }
 
   @override
-  User? get getCurrentUser =>   client.currentUser;
+  User? get getCurrentUser => client.currentUser;
+
+  @override
+  Future<void> signOut() async {
+    return await client.signOut(scope: SignOutScope.global);
+  }
 }
