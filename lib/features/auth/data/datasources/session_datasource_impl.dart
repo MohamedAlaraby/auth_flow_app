@@ -2,6 +2,7 @@ import 'package:auth_flow_app/core/error/exceptions.dart';
 import 'package:auth_flow_app/core/network/supabase/auth_client.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/session_datasource.dart';
 import 'package:auth_flow_app/features/auth/data/models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthException;
 
 class SessionDataSourceImpl implements SessionDataSource {
   final AuthClient _authClient;
@@ -32,7 +33,9 @@ class SessionDataSourceImpl implements SessionDataSource {
 
   @override
   Stream<UserModel?> get authStateChanges {
-    // TODO: Implement authStateChanges
-    throw UnimplementedError('authStateChanges not implemented yet');
+    return _authClient.onAuthStateChange.map((authState) {
+      final User? user = authState.session?.user;
+      return user != null ? UserModel.fromSupabaseUser(user) : null;
+    });
   }
 }

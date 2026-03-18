@@ -22,4 +22,6 @@ abstract class AuthClient {
   User? get getCurrentUser;
 
   Future<void> signOut();
+
+  Stream<AuthState> get onAuthStateChange;
 }

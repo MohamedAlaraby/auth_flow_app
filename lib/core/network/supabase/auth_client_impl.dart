@@ -62,4 +62,7 @@ class AuthClientImpl implements AuthClient {
   Future<void> signOut() async {
     return await client.signOut(scope: SignOutScope.global);
   }
+
+  @override
+  Stream<AuthState> get onAuthStateChange => client.onAuthStateChange;
 }
