@@ -1,5 +1,7 @@
 import 'package:auth_flow_app/core/network/supabase/auth_client.dart';
 import 'package:auth_flow_app/core/network/supabase/auth_client_impl.dart';
+import 'package:auth_flow_app/core/network/supabase/storage_client.dart';
+import 'package:auth_flow_app/core/network/supabase/storage_client_impl.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/email_auth_datasource.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/email_auth_datasource_impl.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/phone_auth_datasource.dart';
@@ -31,13 +33,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-  sl.registerLazySingleton<AuthClient>(() => AuthClientImpl(Supabase.instance.client.auth));
+  sl.registerLazySingleton<AuthClient>(() => AuthClientImpl(Supabase.instance.client.auth ,Supabase.instance.client.functions ));
+  sl.registerLazySingleton<StorageClient>(() => StorageClientImpl(Supabase.instance.client.storage));
 
   sl.registerLazySingleton<EmailAuthDataSource>(() => EmailAuthDataSourceImpl(sl()));
   sl.registerLazySingleton<SocialAuthDataSource>(() => SocialAuthDataSourceImpl(sl()));
   sl.registerLazySingleton<PhoneAuthDataSource>(() => PhoneAuthDataSourceImpl(sl()));
   sl.registerLazySingleton<SessionDataSource>(() => SessionDataSourceImpl(sl()));
-  sl.registerLazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl(sl()));
+  sl.registerLazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl(sl() , sl()));
 
   sl.registerLazySingleton<EmailAuthRepository>(() => EmailAuthRepositoryImpl(emailAuthDataSource: sl()));
   sl.registerLazySingleton<SocialAuthRepository>(() => SocialAuthRepositoryImpl(socialAuthDataSource: sl()));

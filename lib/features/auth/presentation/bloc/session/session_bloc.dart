@@ -14,16 +14,12 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<SignOutEvent>(_onSignOut);
     on<AuthStateChangedEvent>(_onAuthStateChanged);
 
-    // TODO: UN COMMIT
-    // _authStateSubscription = sessionRepository.authStateChanges.listen((user) {
-    //   add(AuthStateChangedEvent(user));
-    // });
+    _authStateSubscription = sessionRepository.authStateChanges.listen((user) {
+      add(AuthStateChangedEvent(user));
+    });
   }
 
-  void _onAuthStateChanged(
-    AuthStateChangedEvent event,
-    Emitter<SessionState> emit,
-  ) {
+  void _onAuthStateChanged(AuthStateChangedEvent event, Emitter<SessionState> emit) {
     if (event.user != null) {
       emit(Authenticated(user: event.user!));
     } else {
@@ -31,17 +27,12 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     }
   }
 
-  Future<void> _onCheckAuthStatus(
-    CheckAuthStatusEvent event,
-    Emitter<SessionState> emit,
-  ) async {
+  Future<void> _onCheckAuthStatus(CheckAuthStatusEvent event, Emitter<SessionState> emit) async {
     emit(const SessionLoading());
 
-    final result = await sessionRepository.getCurrentUser();
+    final result = sessionRepository.getCurrentUser();
 
-    result.fold((failure) => emit(SessionError(message: failure.message)), (
-      user,
-    ) {
+    result.fold((failure) => emit(SessionError(message: failure.message)), (user) {
       if (user != null) {
         emit(Authenticated(user: user));
       } else {
@@ -50,18 +41,12 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     });
   }
 
-  Future<void> _onSignOut(
-    SignOutEvent event,
-    Emitter<SessionState> emit,
-  ) async {
+  Future<void> _onSignOut(SignOutEvent event, Emitter<SessionState> emit) async {
     emit(const SessionLoading());
 
     final result = await sessionRepository.signOut();
 
-    result.fold(
-      (failure) => emit(SessionError(message: failure.message)),
-      (_) => emit(const Unauthenticated()),
-    );
+    result.fold((failure) => emit(SessionError(message: failure.message)), (_) => emit(const Unauthenticated()));
   }
 
   @override

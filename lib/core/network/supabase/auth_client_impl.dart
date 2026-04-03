@@ -3,8 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthClientImpl implements AuthClient {
   final GoTrueClient client;
+  final FunctionsClient functions;
 
-  AuthClientImpl(this.client);
+  AuthClientImpl(this.client, this.functions);
 
   @override
   Future<AuthResponse> signUp({required String email, required String password, required String name}) async {
@@ -53,5 +54,31 @@ class AuthClientImpl implements AuthClient {
   @override
   Future<AuthResponse> verifyOtp({required String phoneNumber, required String otp}) async {
     return await client.verifyOTP(phone: phoneNumber, token: otp, type: OtpType.sms);
+  }
+
+  @override
+  User? get getCurrentUser => client.currentUser;
+
+  @override
+  Future<void> signOut() async {
+    return await client.signOut(scope: SignOutScope.global);
+  }
+
+  @override
+  Stream<AuthState> get onAuthStateChange => client.onAuthStateChange;
+
+  @override
+  Future<UserResponse> updateUser(UserAttributes attributes) async {
+    return await client.updateUser(attributes);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    final response = await functions.invoke('delete-account');
+    await client.signOut(scope: SignOutScope.global);
+
+    if (response.status != 200) {
+      throw const AuthException('Failed to delete account');
+    }
   }
 }
