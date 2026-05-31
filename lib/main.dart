@@ -20,10 +20,10 @@ void main() async {
     anonKey: dotenv.get('SUPABASE_ANON_KEY'),
   );
   // final response = await Supabase.instance.client.auth.signUp(
-  //   email: 'mohamedelaraby1004@gmail.com',
+  //   email: 'm@gmail.com',
   //   password: 'mohamedelaraby1002',
   // );
-  // debugPrint(response.toString());
+  // debugPrint(response.user.toString());
   runApp(const MyApp());
 }
 

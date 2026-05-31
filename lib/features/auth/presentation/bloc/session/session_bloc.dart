@@ -9,14 +9,15 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final SessionRepository sessionRepository;
   StreamSubscription? _authStateSubscription;
 
-  SessionBloc({required this.sessionRepository}) : super(const SessionInitial()) {
+  SessionBloc({required this.sessionRepository})
+    : super(const SessionInitial()) {
     on<CheckAuthStatusEvent>(_onCheckAuthStatus);
     on<SignOutEvent>(_onSignOut);
     on<AuthStateChangedEvent>(_onAuthStateChanged);
-
-    _authStateSubscription = sessionRepository.authStateChanges.listen((user) {
-      add(AuthStateChangedEvent(user));
-    });
+    //TODO: remove this
+    // _authStateSubscription = sessionRepository.authStateChanges.listen((user) {
+    //   add(AuthStateChangedEvent(user)); // ← stream pushes an event into the bloc
+    // });
   }
 
   void _onAuthStateChanged(

@@ -27,11 +27,13 @@ class SignupView extends StatefulWidget {
 class _SignupViewState extends State<SignupView> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -53,10 +55,10 @@ class _SignupViewState extends State<SignupView> {
             );
           } else if (state is EmailAuthSuccess) {
             Navigator.of(context).pushReplacementNamed('/home');
-          } else if (state is EmailSent) {
+          } else if (state is VerifyPasswordOtpState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
+              const SnackBar(
+                content: Text('Sucessfully Signed Up'),
                 backgroundColor: Colors.green,
               ),
             );
@@ -75,6 +77,23 @@ class _SignupViewState extends State<SignupView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 40),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -139,6 +158,7 @@ class _SignupViewState extends State<SignupView> {
                           SignUpWithEmailEvent(
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
+                            username: _nameController.text.trim(),
                           ),
                         );
                       }

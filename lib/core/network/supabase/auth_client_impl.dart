@@ -8,7 +8,38 @@ class AuthClientImpl implements AuthClient {
   Future<AuthResponse> signUp({
     required String email,
     required String password,
+    required String username,
   }) async {
-   return await client.signUp(email: email, password: email);
+    return await client.signUp(
+      email: email,
+      password: email,
+      data: {'username': username},
+    );
+  }
+
+  @override
+  Future<AuthResponse> signIn({
+    required String email,
+    required String password,
+  }) async {
+    return await client.signInWithPassword(email: email, password: password);
+  }
+
+  @override
+  Future<void> resetPassword({required String email}) async {
+    return await client.resetPasswordForEmail(email);
+  }
+
+  @override
+  Future<AuthResponse> sendVerificationOnOtp({
+    required String otp,
+    required String email,
+  }) {
+    return client.verifyOTP(type: OtpType.recovery, email: email, token: otp);
+  }
+
+  @override
+  Future<UserResponse> updatePassword({required String password}) {
+    return client.updateUser(UserAttributes(password: password, ));
   }
 }

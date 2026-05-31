@@ -10,11 +10,15 @@ abstract class EmailAuthEvent extends Equatable {
 class SignUpWithEmailEvent extends EmailAuthEvent {
   final String email;
   final String password;
-
-  const SignUpWithEmailEvent({required this.email, required this.password});
+  final String username;
+  const SignUpWithEmailEvent({
+    required this.email,
+    required this.password,
+    required this.username,
+  });
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, username];
 }
 
 class SignInWithEmailEvent extends EmailAuthEvent {
@@ -34,6 +38,21 @@ class ResetPasswordEvent extends EmailAuthEvent {
 
   @override
   List<Object?> get props => [email];
+}
+class VerifyOnPasswordOtpEvent extends EmailAuthEvent {
+  final String email;
+  final String otp;
+  const VerifyOnPasswordOtpEvent({required this.email, required this.otp});
+  @override
+  List<Object?> get props => [email, otp];
+}
+class UpdatePasswordEvent extends EmailAuthEvent {
+  final String password;
+
+  const UpdatePasswordEvent({required this.password});
+
+  @override
+  List<Object?> get props => [password];
 }
 
 class SendMagicLinkEvent extends EmailAuthEvent {

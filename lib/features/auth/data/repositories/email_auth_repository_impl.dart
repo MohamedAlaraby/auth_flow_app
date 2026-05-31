@@ -8,19 +8,20 @@ import 'package:auth_flow_app/features/auth/domain/repositories/email_auth_repos
 class EmailAuthRepositoryImpl implements EmailAuthRepository {
   final EmailAuthDataSource _emailAuthDataSource;
 
-  EmailAuthRepositoryImpl({
-    required EmailAuthDataSource emailAuthDataSource,
-  }) : _emailAuthDataSource = emailAuthDataSource;
+  EmailAuthRepositoryImpl({required EmailAuthDataSource emailAuthDataSource})
+    : _emailAuthDataSource = emailAuthDataSource;
 
   @override
   Future<Either<Failure, UserEntity>> signUpWithEmail({
     required String email,
     required String password,
+    required String username,
   }) async {
     try {
       final user = await _emailAuthDataSource.signUpWithEmail(
         email: email,
         password: password,
+        username: email,
       );
       return Right(user);
     } on AuthException catch (e) {
@@ -67,9 +68,31 @@ class EmailAuthRepositoryImpl implements EmailAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> verifyEmail({required String token}) async {
+  Future<Either<Failure, UserEntity>>  verifyOtpSendToEmail({
+    required String email,
+    required String otp,
+  }) async {
     try {
-      await _emailAuthDataSource.verifyEmail(token: token);
+      final user = await _emailAuthDataSource.verifyPasswordOtp(
+        otp: otp,
+        email: email,
+      );
+      return Right(user);
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePassword({
+    required String password,
+  }) async {
+    try {
+      await _emailAuthDataSource.updatePassword(password: password);
       return const Right(null);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));

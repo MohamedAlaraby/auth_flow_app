@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-
+//Equatable on Failure matters — BLoC won't rebuild the UI if the same 
+//AuthFailure("bad password") is emitted twice, avoiding redundant rerenders.
 abstract class Failure extends Equatable {
   final String message;
 
