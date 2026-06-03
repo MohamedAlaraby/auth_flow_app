@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth_flow_app/features/auth/domain/repositories/social_auth_repository.dart';
 import 'package:auth_flow_app/features/auth/presentation/bloc/social_auth/social_auth_event.dart';
 import 'package:auth_flow_app/features/auth/presentation/bloc/social_auth/social_auth_state.dart';
@@ -49,9 +51,11 @@ class SocialAuthBloc extends Bloc<SocialAuthEvent, SocialAuthState> {
 
     final result = await socialAuthRepository.signInWithGitHub();
 
-    result.fold(
-      (failure) => emit(SocialAuthError(message: failure.message)),
-      (user) => emit(SocialAuthSuccess(user: user)),
-    );
+    result.fold((failure) => emit(SocialAuthError(message: failure.message)), (
+      _,
+    ) {
+      emit(const SocialAuthLaunched());
+      log('Signed in with GitHub Successfully');
+    });
   }
 }

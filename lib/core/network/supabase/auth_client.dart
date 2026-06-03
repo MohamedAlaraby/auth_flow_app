@@ -18,4 +18,15 @@ abstract class AuthClient {
     required String email,
   });
   Future<void> updatePassword({required String password});
+  // For google,apple signin  [Inside app dialogs no work outside the app]
+  Future<AuthResponse> signInWithIdToken({
+    required OAuthProvider provider,
+    required String idToken,
+  });
+
+  //For github signin
+  Future<bool> signInWithOAuthProvider({
+    required OAuthProvider provider,
+    required String callbackUrl, //from supabase
+  });
 }

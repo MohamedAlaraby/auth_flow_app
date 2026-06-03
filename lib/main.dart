@@ -19,11 +19,6 @@ void main() async {
     url: dotenv.get('SUPABASE_URL'),
     anonKey: dotenv.get('SUPABASE_ANON_KEY'),
   );
-  // final response = await Supabase.instance.client.auth.signUp(
-  //   email: 'm@gmail.com',
-  //   password: 'mohamedelaraby1002',
-  // );
-  // debugPrint(response.user.toString());
   runApp(const MyApp());
 }
 
@@ -73,3 +68,4 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 }
+//Github redirect url: com.elgendy.auth-flow-app://login-callback

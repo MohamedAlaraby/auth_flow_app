@@ -40,6 +40,22 @@ class AuthClientImpl implements AuthClient {
 
   @override
   Future<UserResponse> updatePassword({required String password}) {
-    return client.updateUser(UserAttributes(password: password, ));
+    return client.updateUser(UserAttributes(password: password));
+  }
+
+  @override
+  Future<AuthResponse> signInWithIdToken({
+    required OAuthProvider provider,
+    required String idToken,
+  }) {
+    return client.signInWithIdToken(provider: provider, idToken: idToken);
+  }
+
+  @override
+  Future<bool> signInWithOAuthProvider({
+    required OAuthProvider provider,
+    required String callbackUrl,
+  }) {
+    return client.signInWithOAuth( provider, redirectTo: callbackUrl);
   }
 }

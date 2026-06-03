@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:auth_flow_app/core/error/exceptions.dart';
 import 'package:auth_flow_app/core/error/failures.dart';
@@ -8,14 +10,14 @@ import 'package:auth_flow_app/features/auth/domain/repositories/social_auth_repo
 class SocialAuthRepositoryImpl implements SocialAuthRepository {
   final SocialAuthDataSource _socialAuthDataSource;
 
-  SocialAuthRepositoryImpl({
-    required SocialAuthDataSource socialAuthDataSource,
-  }) : _socialAuthDataSource = socialAuthDataSource;
+  SocialAuthRepositoryImpl({required SocialAuthDataSource socialAuthDataSource})
+    : _socialAuthDataSource = socialAuthDataSource;
 
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
-      final user = await _socialAuthDataSource.signInWithGoogle();
+      final UserEntity user = await _socialAuthDataSource.signInWithGoogle();
+      log('user: $user');
       return Right(user);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
@@ -41,10 +43,10 @@ class SocialAuthRepositoryImpl implements SocialAuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithGitHub() async {
+  Future<Either<Failure, void>> signInWithGitHub() async {
     try {
-      final user = await _socialAuthDataSource.signInWithGitHub();
-      return Right(user);
+      await _socialAuthDataSource.signInWithGitHub();
+      return const Right(null);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on ServerException catch (e) {
