@@ -42,4 +42,6 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       (user) => emit(PhoneAuthSuccess(user: user)),
     );
   }
+
+  
 }

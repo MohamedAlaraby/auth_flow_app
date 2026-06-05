@@ -10,7 +10,7 @@ abstract class AuthClient {
     required String email,
     required String password,
   });
-
+  Future<void> signOut();
   Future<void> resetPassword({required String email});
 
   Future<AuthResponse> sendVerificationOnOtp({
@@ -29,4 +29,12 @@ abstract class AuthClient {
     required OAuthProvider provider,
     required String callbackUrl, //from supabase
   });
+  //Sign in with mobile phone
+  Future<void> sendOTP({required String mobile});
+  Future<AuthResponse> verifyOTP({required String mobile, required String otp});
+
+  User? get getCurrentUser;
+  Stream<AuthState> get onAuthStateChanged;
+  Future<UserResponse> updateUserData({required UserAttributes userAttributes});
+ Future<void> deleteUser();
 }

@@ -11,8 +11,7 @@ class PhoneAuthDataSourceImpl implements PhoneAuthDataSource {
   @override
   Future<void> sendOTP({required String phoneNumber}) async {
     try {
-      // TODO: Implement sendOTP
-      throw UnimplementedError('sendOTP not implemented yet');
+      await _authClient.sendOTP(mobile: phoneNumber);
     } on AuthException {
       rethrow;
     } catch (e) {
@@ -26,8 +25,12 @@ class PhoneAuthDataSourceImpl implements PhoneAuthDataSource {
     required String otpCode,
   }) async {
     try {
-      // TODO: Implement verifyOTP
-      throw UnimplementedError('verifyOTP not implemented yet');
+      final response = await _authClient.verifyOTP(mobile: phoneNumber, otp: otpCode);
+      if (response.user == null) {
+        throw AuthException('The otp is wrong or expired');
+      } else {
+        return UserModel.fromSupabaseUser(response.user!);
+      }
     } on AuthException {
       rethrow;
     } catch (e) {

@@ -71,7 +71,7 @@ class EmailAuthDataSourceImpl implements EmailAuthDataSource {
       throw ServerException('Failed to reset password: ${e.toString()}');
     }
   }
-
+ 
   @override
   Future<UserModel> verifyPasswordOtp({
     required String otp,
@@ -106,8 +106,7 @@ class EmailAuthDataSourceImpl implements EmailAuthDataSource {
   @override
   Future<void> sendMagicLink({required String email}) async {
     try {
-      // TODO: Implement sendMagicLink
-      throw UnimplementedError('sendMagicLink not implemented yet');
+     
     } on AuthException {
       rethrow;
     } catch (e) {

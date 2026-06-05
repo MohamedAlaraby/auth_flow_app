@@ -8,17 +8,16 @@ import 'package:auth_flow_app/features/auth/domain/repositories/session_reposito
 class SessionRepositoryImpl implements SessionRepository {
   final SessionDataSource _sessionDataSource;
 
-  SessionRepositoryImpl({
-    required SessionDataSource sessionDataSource,
-  }) : _sessionDataSource = sessionDataSource;
+  SessionRepositoryImpl({required SessionDataSource sessionDataSource})
+    : _sessionDataSource = sessionDataSource;
 
   @override
-  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
+  Either<Failure, UserEntity?> get getCurrentUser {
     try {
-      final user = await _sessionDataSource.getCurrentUser();
+      final UserEntity? user = _sessionDataSource.getCurrentUser();
       return Right(user);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on AuthException catch (e) {
+      return Left(AuthFailure(e.message));
     } catch (e) {
       return Left(ServerFailure('Unexpected error: ${e.toString()}'));
     }

@@ -16,8 +16,8 @@ class UserModel extends UserEntity {
     return UserModel(
       id: json['id'] as String,
       email: json['email'] as String,
-      displayName: json['display_name'] as String?,
-      photoUrl: json['photo_url'] as String?,
+      displayName: json['name'] as String?,
+      photoUrl: json['avatar_url'] as String?,
       phoneNumber: json['phone_number'] as String?,
       isEmailVerified: json['is_email_verified'] as bool? ?? false,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -29,8 +29,8 @@ class UserModel extends UserEntity {
       email: user.email ?? '',
       isEmailVerified: user.emailConfirmedAt != null,
       createdAt: DateTime.parse(user.createdAt),
-      displayName: user.userMetadata?['display_name'],
-      photoUrl: user.userMetadata?['photo_url'],
+      displayName: user.userMetadata?['name'],
+      photoUrl: user.userMetadata?['avatar_url'],
       phoneNumber: user.phone,
     );
   }
@@ -39,8 +39,8 @@ class UserModel extends UserEntity {
     return {
       'id': id,
       'email': email,
-      'display_name': displayName,
-      'photo_url': photoUrl,
+      'name': displayName,
+      'avatar_url': photoUrl,
       'phone_number': phoneNumber,
       'is_email_verified': isEmailVerified,
       'created_at': createdAt.toIso8601String(),

@@ -6,6 +6,8 @@ import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_ev
 import 'package:auth_flow_app/features/auth/presentation/bloc/session/session_state.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/home_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:auth_flow_app/features/auth/presentation/screens/phone_auth_screen.dart';
+import 'package:auth_flow_app/features/auth/presentation/screens/profile_screen.dart';
 import 'package:auth_flow_app/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SessionBloc>()..add(const CheckAuthStatusEvent()),
+      create: (context) =>
+       sl<SessionBloc>()..add(const CheckAuthStatusEvent()),
 
       child: MaterialApp(
         title: 'Auth Flow App',
@@ -42,6 +45,8 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginPage(),
           '/signup': (context) => const SignupPage(),
           '/home': (context) => const HomePage(),
+          '/phone-auth': (context) => const PhoneAuthPage(),
+          '/profile': (context) => const ProfilePage(),
         },
       ),
     );

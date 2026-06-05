@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 abstract class PhoneAuthEvent extends Equatable {
   const PhoneAuthEvent();
-
   @override
   List<Object?> get props => [];
 }

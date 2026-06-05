@@ -2,6 +2,7 @@ import 'package:auth_flow_app/core/error/exceptions.dart';
 import 'package:auth_flow_app/core/network/supabase/auth_client.dart';
 import 'package:auth_flow_app/features/auth/data/datasources/session_datasource.dart';
 import 'package:auth_flow_app/features/auth/data/models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 class SessionDataSourceImpl implements SessionDataSource {
   final AuthClient _authClient;
@@ -9,10 +10,14 @@ class SessionDataSourceImpl implements SessionDataSource {
   SessionDataSourceImpl(this._authClient);
 
   @override
-  Future<UserModel?> getCurrentUser() async {
+  UserModel getCurrentUser() {
     try {
-      // TODO: Implement getCurrentUser
-      throw UnimplementedError('getCurrentUser not implemented yet');
+      final supabase.User? user = _authClient.getCurrentUser;
+      if (user == null) {
+        throw AuthException('The user is null');
+      } else {
+        return UserModel.fromSupabaseUser(user);
+      }
     } catch (e) {
       throw ServerException('Failed to get current user: ${e.toString()}');
     }
@@ -21,8 +26,7 @@ class SessionDataSourceImpl implements SessionDataSource {
   @override
   Future<void> signOut() async {
     try {
-      // TODO: Implement signOut
-      throw UnimplementedError('signOut not implemented yet');
+      await _authClient.signOut();
     } on AuthException {
       rethrow;
     } catch (e) {
@@ -32,7 +36,13 @@ class SessionDataSourceImpl implements SessionDataSource {
 
   @override
   Stream<UserModel?> get authStateChanges {
-    // TODO: Implement authStateChanges
-    throw UnimplementedError('authStateChanges not implemented yet');
+    return _authClient.onAuthStateChanged.map((authState) {
+      if (authState.session?.user == null) {
+        return null;
+      } else {
+        return UserModel.fromSupabaseUser(authState.session!.user);
+      }
+    });
   }
+  
 }
